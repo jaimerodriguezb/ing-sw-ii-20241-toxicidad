@@ -1,5 +1,6 @@
 import pytest
 from modelo.medidor_toxicidad import MedidorToxicidad
+from unittest.mock import Mock
 
 @pytest.fixture
 def mensaje_toxicidad_baja():
