@@ -1,32 +1,25 @@
+import pandas as pd
+import joblib
+import os
+from .vocabulario import vocabulary
+from sklearn.feature_extraction.text import CountVectorizer
 
 class MedidorToxicidad:
+    
+    def __init__(self) -> None:
+        self.__model = None
+        self.__load_model()
 
-    def medir_toxicidad(self, mensaje):
+    def __load_model(self):
+        self.__model = joblib.load(os.path.dirname(__file__) + '\\training\\toxicidad_model.pkl') 
 
-        if(mensaje == "NO!, Let him, we need a Conservative government."):
-            score_message = 0.3
-
-        elif(mensaje == "And, being white, they're dancing badly."):
-            score_message = 0.5
-
-        elif(mensaje == "You don't care whether Alaska educates its children. We get it. You are an ass."):
-            score_message = 0.9
+    def funcion_prediccion(self, texto):
+        texto_cv = CountVectorizer(vocabulary=vocabulary).transform([texto]).conjugate()
+        toxicidad = self.__model.predict(texto_cv)[0]
             
-        if (0 <= score_message <= 0.4):
+        if (0 <= toxicidad <= 0.4):
             return "Mensaje con toxicidad baja"
-        elif (0.41 <=  score_message <= 0.6):
+        elif (0.41 <=  toxicidad <= 0.6):
             return "Mensaje con toxicidad moderada"
-        elif (0.61 <= score_message <= 1):
+        elif (0.61 <= toxicidad <= 1):
             return "Mensaje con toxicidad alta"
-
-        """
-        if(mensaje == "NO!, Let him, we need a Conservative government."):
-            score_message = 0.3
-            return score_message
-        elif(mensaje == "And, being white, they're dancing badly."):
-            score_message = 0.5
-            return score_message
-        elif(mensaje == "You don't care whether Alaska educates its children. We get it. You are an ass."):
-            score_message = 0.9
-            return score_message
-        """
