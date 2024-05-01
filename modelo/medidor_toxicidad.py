@@ -17,9 +17,9 @@ class MedidorToxicidad:
         texto_cv = CountVectorizer(vocabulary=vocabulary).transform([texto]).conjugate()
         toxicidad = self.__model.predict(texto_cv)[0]
             
-        if (0 <= toxicidad <= 0.4):
+        if (0 <= toxicidad <= 0.3):
             return "Mensaje con toxicidad baja"
-        elif (0.41 <=  toxicidad <= 0.6):
+        elif (0.31 <=  toxicidad <= 0.6):
             return "Mensaje con toxicidad moderada"
         elif (0.61 <= toxicidad <= 1):
             return "Mensaje con toxicidad alta"
